@@ -1,4 +1,4 @@
-<div dir="rtl">
+[<div dir="rtl">
 
 # سیستم مدیریت فروشگاه کلوپ (Club Store Management System)
 
@@ -138,3 +138,4 @@ _مجوز پروژه را اینجا اضافه کنید._
 مجتبی یادآور (Mojtaba Yadavar)
 
 </div>
+](https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/main1.png)
