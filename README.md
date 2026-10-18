@@ -4,7 +4,7 @@
 
 برنامه‌ی دسکتاپ ویندوزی برای مدیریت کلوپ فیلم: موجودی فیلم‌ها، تشخیص فلش، انتقال فایل به فلش مشتری، صدور فاکتور و انتشار «فیلم‌های جدید» به‌صورت صفحه‌ی وب برای مشتری‌ها.
 
-پروژه‌ی تک‌نفره، ساخته‌شده با C#، Windows Forms، EF Core و SQL Server.
+پروژه‌ ساخته‌شده با C#، Windows Forms، EF Core و SQL Server.
 
 ## امکانات
 
@@ -101,20 +101,11 @@ erDiagram
 
 هر فیلم یک `MultimediaHeader` است. فیلم فصل‌ها (`MultimediaHeaderChapter`) دارد و هر فصل یک یا چند فایل (`MultimediaChapterDetail`، با پرچم‌هایی مثل WEB-DL یا HDTS). مشتری فایل‌ها را از طریق `MultiListPersonal` می‌خرد و کپی روی فلش در `CopiedFilmToMemory` ثبت می‌شود.
 
-## راه‌اندازی
 
-1. ریپو را clone کنید و فایل `.sln` را در Visual Studio باز کنید.
-2. رشته‌ی اتصال SQL Server را در تنظیمات برنامه وارد کنید (هرگز آن را commit نکنید).
-3. Migrationها را اجرا کنید یا دیتابیس را بسازید.
-4. کلید `F5` را بزنید.
-
-## مجوز
-
-_مجوز پروژه را اینجا اضافه کنید._
 
 ## سازنده
 
 مجتبی یادآور (Mojtaba Yadavar)
 
 </div>
-](https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/main1.png)
+]
