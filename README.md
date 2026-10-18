@@ -21,7 +21,7 @@
 
 ### فرم اصلی
 
-(https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/main1.png)
+![فرم اصلی1](https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/main1.png)
 ![فرم اصلی1](docs/screenshots/main2.png)
 
 ### مدیریت فیلم‌ها
