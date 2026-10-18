@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BaleBotNet" Version="4.3.0" />
+    <PackageReference Include="devexpress.win.navigation" Version="25.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IranKavosh.Layered.Service\IranKavosh.Layered.Service.csproj" />
+    <ProjectReference Include="..\MyCom\MyCom.csproj" />
+  </ItemGroup>
+
+</Project>

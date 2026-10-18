@@ -1,0 +1,58 @@
+﻿
+
+@if (Show)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">قسمت‌های سریال</h5>
+                    <button type="button" class="btn-close" @onclick="Close"></button>
+                </div>
+                <div class="modal-body">
+       @*              @if (Episodes == null)
+                    {
+                        <p>در حال بارگذاری...</p>
+                    }
+                    else if (!Episodes.Any())
+                    {
+                        <p>قسمتی یافت نشد.</p>
+                    }
+                    else
+                    {
+                        <ul>
+                            @foreach (var ep in Episodes)
+                            {
+                                <li>@ep.EpisodeNumber - @ep.Title (@ep.Duration دقیقه)</li>
+                            }
+                        </ul>
+                    } *@
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public Guid SeriesId { get; set; }
+    [Parameter] public bool Show { get; set; }
+    [Parameter] public EventCallback OnClose { get; set; }
+
+   // private List<EpisodeModel> Episodes;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        // if (Show && SeriesId != Guid.Empty)
+        // {
+        //     Episodes = await MultiHeader.GetEpisodesAsync(SeriesId);
+        // }
+    }
+
+    private async Task Close()
+    {
+       // Episodes = null;
+        await OnClose.InvokeAsync();
+    }
+}
+
+

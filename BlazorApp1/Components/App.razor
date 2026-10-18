@@ -1,0 +1,71 @@
+﻿@using BlazorApp1.Components.Layout
+@using IranKavosh.Layered.Model.Tables
+
+@inherits LayoutComponentBase
+@inject MultimediaHeaderHttpService MultiHeader
+@inject MultimediaHeaderChapterHttpService MultiHeaderChapter
+@inject MultimediaChapterDetailHttpService MultiChapterDetail
+@inject MultiCountryHttpService MultiCountry
+@inject MultiLocationHttpService MultiLocation
+@inject MultiGenreHttpService MultiGenre
+@* @rendermode InteractiveServer *@
+
+<_PageHead />
+
+
+<!-- loader Start -->
+<div id="loading">
+    <div id="loading-center">
+    </div>
+</div>
+<!-- loader END -->
+<!-- Header -->
+<Header1/>
+<!-- Header End -->
+<!-- Slider Start -->
+<ViewHome/>
+<!-- Slider End -->
+<!-- MainContent -->
+<div class="main-content">
+    <button @onclick="Test">Test Run 2</button>
+    @{
+        Func<MultimediaHeader, bool> filter = header => header.MultimediaGroupId == Guid.Parse("6509e3d3-ee0f-4dac-ad65-446be213d9ef");
+        <ViewFilm Title="سریال های ایرانی" Filter="filter"/>
+    }
+    @{
+        Func<MultimediaHeader, bool> filter1 = header => header.MultimediaGroupId == Guid.Parse("3e8ea833-5ca0-48d9-819e-c5049a46e3f5");
+        <ViewFilm Title="سینمایی ایرانی" Filter="filter1"/>
+    }
+
+    @*     <ViewFilm Title="سینمایی ایرانی"/>
+        <ViewFilm Title="سریال های خارجی"/> *@
+
+
+    <ViewFilmBetter/> @*برتر*@
+
+    <ViewFilmSuggestion/> @*پیشنهادی*@
+
+    <ViewFilmSingle/>
+    <ViewFilmRecommended/>
+
+</div>
+
+@* <Footer1 /> *@
+
+<!-- MainContent End-->
+<!-- back-to-top -->
+<_PageScript/>
+
+
+@code
+{
+    public void Test()
+    {
+
+    }
+    protected override void OnInitialized()
+    {
+        
+        base.OnInitialized();
+    }
+}

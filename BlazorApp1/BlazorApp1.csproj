@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="9.0.9" />
+    <PackageReference Include="Syncfusion.Blazor.Calendars" Version="29.1.33" />
+    <PackageReference Include="Syncfusion.Blazor.Core" Version="29.1.33" />
+    <PackageReference Include="Syncfusion.Blazor.Grid" Version="29.1.33" />
+    <PackageReference Include="Syncfusion.Blazor.Navigations" Version="29.1.33" />
+    <PackageReference Include="Syncfusion.Blazor.Themes" Version="29.1.33" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Components\New2\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IranKavosh.Layered.Repository\IranKavosh.Layered.Repository.csproj" />
+    <ProjectReference Include="..\IranKavosh.Layered.Service\IranKavosh.Layered.Service.csproj" />
+  </ItemGroup>
+
+</Project>

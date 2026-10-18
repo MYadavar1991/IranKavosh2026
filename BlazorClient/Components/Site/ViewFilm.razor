@@ -1,0 +1,191 @@
+﻿
+@using Bit.BlazorUI
+@inject MultimediaHeaderHttpService MultiHeader
+@inject MultimediaHeaderChapterHttpService MultiHeaderChapter
+@inject MultimediaChapterDetailHttpService MultiChapterDetail
+@inject MultiCountryHttpService MultiCountry
+@inject MultiLocationHttpService MultiLocation
+@inject MultiGenreHttpService MultiGenre
+
+ @rendermode InteractiveServer 
+
+@if ( loadAllVideo?.Any() == true)
+{
+
+    <BitSwiper  Dir="BitDir.Rtl" AnimationDuration="0.5" ScrollItemsCount="3" >
+        @for (int i = 0; i < loadAllVideo.Count; i++)
+        {
+          
+      
+            var i1 = i;
+
+            <BitSwiperItem Class="item" @onclick="() => ShowEpisodes(loadAllVideo[i1].Id)">
+                <div>@loadAllVideo[i1].NamePersian</div>
+                <div class="number">@i1</div>
+                 <img class="image" src="@loadAllVideo[i1].UriImage" /> 
+            </BitSwiperItem>
+        }
+    </BitSwiper>
+
+
+
+@*     <BitSwiper ScrollItemsCount="4" AnimationDuration="0.5" >
+        @foreach (var view in loadAllVideo)
+        {
+            <BitSwiperItem>
+                <div class="slide-item">
+                    <img src="@view.UriImage" alt="@view.NamePersian" class="slide-img" />
+                    <h6 class="slide-title">@view.NamePersian</h6>
+                    <p class="slide-genre">@view.Gener</p>
+                    <button class="btn btn-sm btn-outline-light" @onclick="() => ShowEpisodes()">جزئیات</button>
+                </div>
+            </BitSwiperItem>
+        }
+    </BitSwiper> *@
+}
+else
+{
+    <p class="text-muted">در حال بارگذاری...</p>
+}
+
+
+
+@* <PopupSection IsOpen2="@showEpisodeModal"></PopupSection> *@
+@if (showEpisodeModal)
+{
+    <div style="width:345px">
+        <PopupSection IsOpen2="@showEpisodeModal" HeaderId="@_headerId" IsOpen2Changed="@((val) => showEpisodeModal = val)"/>
+    </div>
+}
+
+@code {
+    private bool showEpisodeModal = false;
+
+    [Parameter]
+    public string Title { get; set; }
+
+    // [Parameter]
+    //public Func<MultimediaHeader, bool> Filter { get; set; }
+
+
+    //private bool isInteractiveReady = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        await GetHeader();
+        StateHasChanged();
+        await base.OnInitializedAsync(); // ✅ چون متد پایه هم async هست
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // if (firstRender)
+        // {
+        //     isInteractiveReady = true;
+        //    // StateHasChanged(); // باعث می‌شه BitSwiper بعد از ثبت renderer اجرا بشه
+        // }
+    }
+
+    #region MyRegion
+
+    private Guid selectedSeriesId;
+
+    Guid _headerId;
+    private void ShowEpisodes(Guid id)
+    {
+        //selectedSeriesId = id;
+        _headerId = id;
+        showEpisodeModal = true;
+        StateHasChanged();
+    }
+
+    private void HideModal()
+    {
+        showEpisodeModal = false;
+    }
+
+    #endregion
+    // protected override  Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     if (_firstRender)
+    //     {
+    //         _firstRender = false;
+    //          GetHeader();
+    //         StateHasChanged(); // باعث می‌شه لیست دوباره رندر بشه
+    //     }
+
+    //     return base.OnAfterRenderAsync(false);
+    // }
+
+    public async Task GetHeader()
+    {
+        var getdata = await MultiHeader.GetByModel();
+        var getlocation = await MultiLocation.GetAsync();
+        var getCountry = await MultiCountry.GetAsync();
+        var getGenre = await MultiGenre.GetAsync();
+
+        var tasks = getdata.Select(async s =>
+        {
+            var getgenerList = s.MultiGenreLists.Split(',');
+            var genreTitles = getGenre
+                .Where(g => getgenerList.Contains(g.Id.ToString()))
+                .Select(g => g.Title);
+
+            //  var image = await MultiHeader.Image(s.Id);
+            return new ModelTileView
+            {
+                Id = s.Id,
+                NamePersian = s.NamePersian,
+                LocationId = s.LocationId,
+                Country = getCountry.First(f => f.Id == s.CountryId).Title,
+                Num = s.Num,
+                MultimediaGroup = s.MultimediaGroupId == Guid.Parse("6509e3d3-ee0f-4dac-ad65-446be213d9ef") ? "سریال" : "سینمایی",
+                Gener = string.Join(',', genreTitles),
+                UriImage = $"http://192.168.1.160:1212/api/MultimediaHeader/Image/{s.Id}"
+            };
+        });
+
+        loadAllVideo = (await Task.WhenAll(tasks)).ToList();
+
+        // dgvVideo.DataSource = loadAllVideo;
+
+    }
+    public class ModelTileView
+    {
+        public Guid Id { get; set; }
+        public string NamePersian { get; set; }
+        public Guid? LocationId { get; set; }
+        public string Location { get; set; }
+        public string Country { get; set; }
+        public long Num { get; set; }
+        public string MultimediaGroup { get; set; } // سینمایی | سریال
+        public string Gener { get; set; }
+        public string UriImage { get; set; }
+
+    }
+    List<ModelTileView> loadAllVideo = new List<ModelTileView>();
+
+    private bool _firstRender = true;
+
+}
+<style>
+    .item {
+        width: 250px;
+        height: 100%;
+    }
+
+    .number {
+        top: 0.75rem;
+        color: #D7D7D7;
+        padding: 0.75rem;
+        position: absolute;
+        font-size: 0.75rem;
+        white-space: nowrap;
+    }
+
+    .image {
+        width: 100%;
+        height: 100%;
+    }
+</style>

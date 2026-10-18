@@ -1,0 +1,77 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
+    <!--<ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>-->
+	  <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+	 
+		  <UseWindowsFormsDesigner>true</UseWindowsFormsDesigner>
+		  <EnableWindowsFormsHighDpiAutoResizing>true</EnableWindowsFormsHighDpiAutoResizing>
+		  <PackageIcon></PackageIcon>
+		  <ApplicationIcon>copy.ico</ApplicationIcon>
+	  
+
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="copy.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DevExpress.Win.Design" Version="25.1.3" />
+    <PackageReference Include="MediaDevices" Version="1.10.0" />
+    <PackageReference Include="System.Management" Version="9.0.8" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.8.1" />
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="9.0.8" />
+    <PackageReference Include="WindowsAPICodePack" Version="8.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IranKavosh.Layered.Model\IranKavosh.Layered.Model.csproj" />
+    <ProjectReference Include="..\IranKavosh.Layered.Service\IranKavosh.Layered.Service.csproj" />
+    <ProjectReference Include="..\MyCom\MyCom.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="DevExpress.BonusSkins.v25.1">
+      <HintPath>..\..\..\..\..\..\Program Files\DevExpress 25.1\Components\Offline Packages\devexpress.win.bonusskins\25.1.3\lib\net8.0-windows\DevExpress.BonusSkins.v25.1.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="FrmCopyFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="copy.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="Resources\TestSpeed.spd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

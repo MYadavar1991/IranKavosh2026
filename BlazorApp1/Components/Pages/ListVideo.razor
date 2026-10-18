@@ -1,0 +1,448 @@
+﻿<h3>ListVideo</h3>
+@page "/Videos"
+
+
+@inject NavigationManager UriHelper
+
+@inject MultimediaHeaderHttpService MultiHeader
+@inject MultimediaHeaderChapterHttpService MultiHeaderChapter
+@inject MultimediaChapterDetailHttpService MultiChapterDetail
+@inject MultiCountryHttpService MultiCountry
+@inject MultiLocationHttpService MultiLocation
+@inject MultiGenreHttpService MultiGenre
+
+
+<div class="col-lg-12 control-section">
+    @* Initialization of ListView component with template customization *@
+    <SfListView  DataSource="@loadAllVideo"
+                ShowHeader="true"
+                HeaderTitle="Syncfusion Blog"
+                CssClass="e-list-template listview-template">
+        <ListViewFieldSettings TValue="ModelTileView" Id="Id" Text="Test1" Child="Child" Tooltip="Test1" ></ListViewFieldSettings> 
+
+        <ListViewTemplates TValue="ModelTileView">
+           
+            <Template>
+                @{
+                    var isChild = context.Child == null || context.Child.Count == 0;
+                    <div class="@(context.NamePersian != null ? "clearfix desc e-list-wrapper e-list-multi-line e-list-avatar" : "clearfix e-list-wrapper e-list-multi-line e-list-avatar")">
+                       @if (!isChild)
+                       {
+                          
+                           <div class="grid-container">
+                               <div class="image-box">
+                                   <img src="http://192.168.1.160:1212/api/MultimediaHeader/GetImage2"
+                                        alt="تصویر"
+                                        width="170" height="225"
+                                        onload="console.log('تصویر لود شد')"
+                                        onerror="console.error('تصویر پیدا نشد')" />
+                               </div>
+
+                               <div class="info-box div2">@context.NamePersian</div>
+                               <div class="info-box div3">@context.MultimediaGroup @context.Country </div>
+                               <div class="info-box div4">@context.Gener</div>
+                           </div>
+
+                         
+
+                           // @if (context.NamePersian != string.Empty)
+                           // {
+
+                           //     <img src="http://192.168.1.160:1212/api/MultimediaHeader/GetImage2"
+                           //          alt="خطای تصویر"
+                           //          width="170" height="225"
+                           //          onload="console.log('تصویر لود شد')"
+                           //          onerror="console.error('تصویر پیدا نشد')"/>
+
+                           // }
+
+                           // <span class="e-list-item-header">@context.NamePersian</span>
+                           // <span class="e-list-content e-text-overflow">@context.Gener</span>
+                           // @if (context.NamePersian != string.Empty)
+                           // {
+                           //     <div id="list-logo" onclick="event.stopPropagation();">
+                           //         <span class="bookmark" title="We can customize this element to perform our own action"></span>
+                           //         <span class="comments" title="We can customize this element to perform our own action"></span>
+                           //         <span class="share" title="We can customize this element to perform our own action"></span>
+                           //     </div>
+                           // }
+
+                           // @if (context.NamePersian != string.Empty)
+                           // {
+                           //     <div class="timeStamp">@context.MultimediaGroup</div>
+                           //     <div class="timeStamp">@context.Country</div>
+                           // }
+                       }
+                       else
+                       {
+                           <div>@context.NamePersian</div>
+                       }
+</div>}
+            </Template>
+        </ListViewTemplates>
+    </SfListView>
+</div>
+
+
+@code {
+
+ 
+    public class ModelTileView
+    {
+        public Guid Id { get; set; }
+        public string NamePersian { get; set; }
+        public Guid? LocationId { get; set; }
+        public string Location { get; set; }
+        public string Country { get; set; }
+        public long Num { get; set; }
+        public string MultimediaGroup { get; set; } // سینمایی | سریال
+        public string Gener { get; set; }
+
+        #region مخصوص قسمت فیلم ها
+
+        public int ChapterCode { get; set; } // فصل
+        public int ChapterFa { get; set; } // قسمت دوبله
+        public int ChapterEn { get; set; } // قسمت زیر نویس  
+   
+
+        #endregion
+
+        public List<ModelTileView> Child { get; set; } 
+
+        //  public Image Image { get; set; }
+    }
+    List<ModelTileView> loadAllVideo=new List<ModelTileView>();
+
+    private bool _firstRender = true;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_firstRender)
+        {
+            _firstRender = false;
+            await GetHeader();
+            StateHasChanged(); // باعث می‌شه لیست دوباره رندر بشه
+        }
+    }
+
+    // protected override void OnAfterRender(bool firstRender)
+    // {
+    //      GetHeader();
+    //     base.OnAfterRender(firstRender);
+    // }
+
+    // protected override async Task<Task> OnAfterRenderAsync(bool firstRender)
+    // {
+    //     await GetHeader();
+    //     return base.OnAfterRenderAsync(firstRender);
+    // }
+
+    public async Task GetHeader()
+    {
+        var getdata = await MultiHeader.GetByModel();
+        var getlocation = await MultiLocation.GetAsync();
+        var getCountry = await MultiCountry.GetAsync();
+        var getGenre = await MultiGenre.GetAsync();
+
+        loadAllVideo = getdata.Select(s =>
+        {
+            //  var location = Path.Combine(getlocation.First(f => f.Id == s.LocationId).DirShare_PCIP, s.Num.ToString(), "Image.jpg");
+            var getgenerList = s.MultiGenreLists.Split(',');
+            var genreTitles = getGenre
+                .Where(g => getgenerList.Contains(g.Id.ToString()))
+                .Select(g => g.Title);
+            return new ModelTileView
+            {
+                Id = s.Id,
+                NamePersian = s.NamePersian,
+                LocationId = s.LocationId,
+                // Location = location,
+                Country = getCountry.First(f => f.Id == s.CountryId).Title,
+                Num = s.Num,
+                MultimediaGroup = s.MultimediaGroupId == Guid.Parse("6509e3d3-ee0f-4dac-ad65-446be213d9ef") ? "سریال" : "سینمایی",
+                Gener = string.Join(',', genreTitles),
+                Child = new List<ModelTileView>
+                {
+                    new ModelTileView{NamePersian = "توضیحات"},
+                    new ModelTileView{NamePersian = "2 توضیحات"},
+                }
+                //  Image = Image.FromFile(location)
+
+            };
+        }).ToList();
+        // dgvVideo.DataSource = loadAllVideo;
+
+    }
+}
+
+
+<style>
+#<!-- #region name -->
+    .parent {
+        direction: ltr;
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+    }
+
+    .div1 {
+        grid-area: 1 / 4 / 5 / 8;
+    }
+
+    .div2 {
+        grid-area: 1 / 1 / 2 / 4;
+    }
+
+    .div3 {
+        grid-area: 2 / 1 / 3 / 4;
+    }
+
+    .div4 {
+        grid-area: 3 / 1 / 4 / 4;
+    }
+
+    .div5 {
+        grid-area: 4 / 1 / 5 / 4;
+    }
+    .grid-container {
+    display: grid;
+    grid-template-columns: 3fr 2fr; /* سمت چپ اطلاعات، سمت راست تصویر */
+    grid-template-rows: auto auto auto;
+    gap: 1px;
+    align-items: start;
+    height: 200px;
+    direction: ltr; /* برای چیدمان راست‌به‌چپ */
+}
+
+.image-box {
+    grid-row: 1 / 4; /* تصویر کل ارتفاع رو بگیره */
+    grid-column: 2 / 3;
+    /* background-color: #f0f0f0; */
+    padding: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+
+.info-box {
+    grid-column: 1 / 2;
+    /* background-color: #e0f7fa; */
+    padding: 10px;
+    border-radius: 5px;
+    font-family: sans-serif;
+    font-size: 14px;
+}
+
+<!-- #endregion -->
+    /* ListView template customization styles */
+    .listview-template.e-listview {
+        max-width: 400px;
+        margin: auto;
+        border-radius: 2px;
+        height: 470px;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    }
+
+        .listview-template.e-listview .e-list-header #list-logo {
+            margin-top: 2.5px;
+            position: absolute;
+            right: 20px;
+        }
+
+    @@font-face {
+        font-family: 'Bookmarks';
+        src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    .e-listview.e-rtl.e-list-template .e-list-wrapper.e-list-avatar:not(.e-list-badge) {
+        padding-left: 1.0666em;
+        padding-right: 122px;
+    }
+
+    .e-listview.e-list-template .e-list-wrapper.e-list-avatar:not(.e-list-badge),
+    .tailwind.e-bigger .e-listview.e-list-template .e-list-wrapper.e-list-avatar,
+    .tailwind-dark.e-bigger .e-listview.e-list-template .e-list-wrapper.e-list-avatar {
+        padding-left: 122px;
+        padding-right: 1.0666em;
+    }
+
+    .listview-template.e-listview.e-list-template .e-list-wrapper.e-list-multi-line.e-list-avatar .e-avatar {
+        background: transparent;
+        width: 90px;
+        height: 90px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .listview-template.e-listview #list-logo {
+        float: right;
+    }
+
+    .listview-template.e-listview.e-list-template .clearfix.desc.e-list-wrapper p {
+        text-indent: 50px;
+    }
+
+    .listview-template.e-listview .e-list-item.e-has-child.e-hover:not(.e-focused) {
+        transition: 0.8s;
+    }
+
+    .listview-template.e-listview .e-list-item.e-active {
+        background-color: #fff;
+    }
+
+    .listview-template.e-listview .e-list-item.e-level-1.e-has-child {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
+        .listview-template.e-listview .e-list-item.e-level-1.e-has-child:last-child {
+            border-bottom: 0px solid rgba(0, 0, 0, 0.12)
+        }
+
+    .listview-template.e-listview .timeStamp {
+        font-size: 10px;
+        padding: 4px 0;
+    }
+
+    .listview-template.e-listview .bookmark,
+    .listview-template.e-listview .share,
+    .listview-template.e-listview .comments {
+        cursor: pointer;
+    }
+
+        .listview-template.e-listview .bookmark::before,
+        .listview-template.e-listview .share::before,
+        .listview-template.e-listview .comments::before {
+            color: grey;
+            font-family: 'Bookmarks';
+            margin-left: 3px;
+        }
+
+    body.bootstrap5 .listview-template.e-listview .e-list-item.e-focused .bookmark::before,
+    body.bootstrap5 .listview-template.e-listview .e-list-item.e-focused .share::before,
+    body.bootstrap5 .listview-template.e-listview .e-list-item.e-focused .comments::before,
+    body.material-dark .listview-template.e-listview .e-list-item.e-focused .bookmark::before,
+    body.material-dark .listview-template.e-listview .e-list-item.e-focused .share::before,
+    body.material-dark .listview-template.e-listview .e-list-item.e-focused .comments::before,
+    body.fabric-dark .listview-template.e-listview .e-list-item.e-focused .bookmark::before,
+    body.fabric-dark .listview-template.e-listview .e-list-item.e-focused .share::before,
+    body.fabric-dark .listview-template.e-listview .e-list-item.e-focused .comments::before,
+    body.bootstrap-dark .listview-template.e-listview .e-list-item.e-focused .bookmark::before,
+    body.bootstrap-dark .listview-template.e-listview .e-list-item.e-focused .share::before,
+    body.bootstrap-dark .listview-template.e-listview .e-list-item.e-focused .comments::before,
+    body.tailwind-dark .listview-template.e-listview .e-list-item.e-focused .bookmark::before,
+    body.tailwind-dark .listview-template.e-listview .e-list-item.e-focused .share::before,
+    body.tailwind-dark .listview-template.e-listview .e-list-item.e-focused .comments::before,
+    body.bootstrap5-dark .listview-template.e-listview .e-list-item.e-focused .bookmark::before,
+    body.bootstrap5-dark .listview-template.e-listview .e-list-item.e-focused .share::before,
+    body.bootstrap5-dark .listview-template.e-listview .e-list-item.e-focused .comments::before {
+        color: #ffffff;
+    }
+
+    .listview-template.e-listview .bookmark::before {
+        content: "\e700";
+        margin-right: 12px;
+        font-size: 16px;
+    }
+
+    .listview-template.e-listview .share::before {
+        content: "\e701";
+        margin-right: 3px;
+        font-size: 13px;
+    }
+
+    .listview-template.e-listview .comments::before {
+        content: "\e703";
+        margin-right: 12px;
+        font-size: 15px;
+    }
+    /* Highcontrast theme customization */
+    .highcontrast .listview-template.e-listview .bookmark::before,
+    .highcontrast .listview-template.e-listview .share::before,
+    .highcontrast .listview-template.e-listview .comments::before {
+        color: #fff;
+    }
+
+    .highcontrast .listview-template.e-listview .e-list-item.e-active {
+        background-color: #333333;
+        color: #fff;
+    }
+
+    .highcontrast .listview-template.e-listview .e-list-item.e-hover:not(.e-focused) {
+        background-color: #333333;
+        color: #fff;
+        border-color: #333333;
+    }
+
+    .highcontrast .listview-template.e-listview .e-list-item.e-has-child.e-hover {
+        transition: 0s;
+        background-color: #685708;
+        border-color: #fff;
+        color: #fff;
+    }
+
+    .highcontrast .e-listview.e-list-template .e-list-item.e-active .e-list-item-header,
+    .highcontrast .e-listview.e-list-template .e-list-item.e-active .e-list-content {
+        color: #fff;
+    }
+    /* Bootstrap theme related customization */
+    .bootstrap4 .e-listview.e-list-template .e-list-item.e-active .e-list-item-header,
+    .bootstrap4 .e-listview.e-list-template .e-list-item.e-active .e-list-content {
+        color: #333333;
+    }
+
+    .bootstrap4 .listview-template.e-listview .bookmark::before,
+    .bootstrap4 .listview-template.e-listview .share::before,
+    .bootstrap4 .listview-template.e-listview .comments::before {
+        color: #495057;
+    }
+
+    .bootstrap .listview-template.e-listview .e-has-child:hover .e-list-item-header {
+        color: #0644b4;
+        transition: 0.5s;
+    }
+    /* Tailwind theme related customization */
+    .listview-template.e-listview.e-list-template .clearfix.desc.e-list-wrapper,
+    .tailwind .listview-template.e-listview.e-list-template .clearfix.desc.e-list-wrapper,
+    .tailwind-dark .listview-template.e-listview.e-list-template .clearfix.desc.e-list-wrapper {
+        padding-left: 16px;
+    }
+
+    .tailwind-dark.e-bigger .listview-template.e-listview.e-list-template .e-list-wrapper.e-list-multi-line.e-list-avatar .e-avatar {
+        width: 65px;
+        height: 65px;
+    }
+    /* Material theme related customization */
+    .material .listview-template.e-listview .e-has-child:hover .e-list-item-header {
+        color: #E91E63;
+        transition: 0.5s;
+    }
+
+    .fabric .listview-template.e-listview .e-has-child:hover .e-list-item-header {
+        color: #275395;
+        transition: 0.5s;
+    }
+
+    body.material-dark .e-list-item .e-list-avatar.e-list-multi-line .e-list-item-header {
+        color: #ffffff;
+    }
+
+    body.material-dark .e-list-item .e-list-avatar.e-list-multi-line .e-list-content,
+    body.bootstrap-dark .e-list-item .e-list-avatar.e-list-multi-line .e-list-content {
+        color: rgba(255,255,255,0.7);
+    }
+    /* Media query for mobile devices. */
+    @@media screen and (max-width: 450px) {
+        .listview-template.e-listview #list-logo {
+            display: none
+        }
+    }
+    /* ListView border customization */
+    body.fabric-dark .listview-template.e-listview,
+    body.bootstrap-dark .listview-template.e-listview,
+    body.highcontrast .listview-template.e-listview {
+        border: 1px solid #dddddd;
+    }
+</style>
+

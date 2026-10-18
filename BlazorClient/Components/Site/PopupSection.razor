@@ -1,0 +1,319 @@
+﻿@using Bit.BlazorUI
+@using BlazorClient.Class
+@using IranKavosh.Layered.Service.Middleware
+@using Newtonsoft.Json
+
+@inject MultimediaHeaderHttpService MultiHeader
+@inject MultimediaHeaderChapterHttpService MultiHeaderChapter
+@inject MultimediaChapterDetailHttpService MultiChapterDetail
+@inject MultiCountryHttpService MultiCountry
+@inject MultiLocationHttpService MultiLocation
+@inject MultiGenreHttpService MultiGenre
+
+@* <div>@usageReport</div>  *@
+
+<BitDialog @bind-IsOpen="@IsOpen2" ShowCloseButton="true" IsBlocking="true" Dir="BitDir.Rtl" class="fullscreen-dialog">
+    <div class="dialog-title">
+    </div>
+
+    <BitDropdown Label="انتخاب فصل"
+                 Items="GetChapters"
+                 Placeholder="Select an item"
+                 TItem="BitDropdownItem<string>"
+                 TValue="string"
+                 Value="selectedChapter"
+                 ValueChanged="OnChapterChanged" />
+
+
+
+    <div class="dialog-body">
+        <BitBasicList Items="getDetailChapter" class="dynamic-episode-list">
+            <RowTemplate Context="chapter">
+                <div class="episode-item">
+                    <BitLabel>قسمت @chapter.Code</BitLabel>
+                    <div class="episode-actions">
+                        <BitButton Title="دانلود" OnClick="() => BtnDownload(Guid.NewGuid())">دانلود</BitButton>
+                        <BitButton Title="پخش" OnClick="() => BtnPlay(chapter.Address)">پخش</BitButton>
+                    </div>
+                </div>
+
+            </RowTemplate>
+        </BitBasicList>
+    </div>
+
+
+
+</BitDialog>
+
+
+
+
+<BitDialog @bind-IsOpen="IsVideoOpen"
+           IsBlocking="true"
+           ShowCloseButton="true"
+           class="video-dialog">
+
+    <div class="video-container">
+        @* <video controls width="100%" height="auto"> *@
+      @*   <video id="myVideo"  autoplay muted controls controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false;" width="100%" height="auto">
+            <source src="@addressVideo" type="video/mp4" />
+            مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند.
+        </video> *@
+        <video id="myVideo"
+               src="@addressVideo"
+               autoplay muted controls
+               controlsList="nodownload noplaybackrate"
+               disablePictureInPicture
+               oncontextmenu="return false;"
+               width="100%" height="auto">
+            مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند.
+        </video>
+
+
+
+    </div>
+    <div>حجم مصرفی: @MbUsed</div>
+    <p>حجم مصرف‌شده: @MbUsed MB</p>
+</BitDialog>
+@inject HttpClient Http
+@inject IJSRuntime JS
+@code {
+
+    #region Usage
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+       // if (firstRender)
+        {
+            await JS.InvokeVoidAsync("attachVideoUsageTracker");
+        }
+    }
+
+    private string MbUsed = "؟";
+    // private string addressVideo = "D:\\Videos\\sample.mp4"; // مسیر فایل ویدئو
+
+    [JSInvokable("ReportUsage")]
+    public Task ReportUsage(string mb)
+    {
+        MbUsed = mb;
+        StateHasChanged(); // بروزرسانی UI
+        return Task.CompletedTask;
+    }
+    #endregion
+
+    bool IsVideoOpen = false;
+    string addressVideo;
+    string addressVideo2;
+  
+
+    private async Task BtnPlay(string address)
+    {
+        IsVideoOpen = true;
+        addressVideo2= Uri.EscapeDataString(address);
+        addressVideo = $"http://192.168.1.160:1212/api/MultimediaChapterDetail/PlayVideo?address={addressVideo2}";
+
+
+    }
+
+    private void BtnDownload(Guid id)
+    {
+
+    }
+
+
+
+    public class ModelChapterDetailForVideo
+    {
+        public Guid Id { get; set; }
+        public long Code { get; set; }
+        public string Address { get; set; }
+    }
+    private bool _isOpen2;
+
+    [Parameter]
+    public bool IsOpen2
+    {
+        get => _isOpen2;
+        set
+        {
+            if (_isOpen2 != value)
+            {
+                _isOpen2 = value;
+                IsOpen2Changed.InvokeAsync(value);
+            }
+        }
+    }
+    [Parameter] public Guid HeaderId { get; set; }
+    [Parameter] public EventCallback<bool> IsOpen2Changed { get; set; }
+
+    string selectedChapter;
+
+    private string? optionValue;
+    private bool IsOpen3 = false;
+
+    private List<BitDropdownItem<string>> GetChapters;
+    List<ModelChapterDetailForVideo> getDetailChapter = new List<ModelChapterDetailForVideo>();
+
+    
+
+    protected override async Task OnParametersSetAsync()
+    {
+       
+            selectedChapter = null;
+            getDetailChapter.Clear();
+            GetChapters?.Clear();
+        
+
+        var getChapters = await MultiHeaderChapter.GetHeaderChapter(HeaderId);
+
+        GetChapters = getChapters.OrderByDescending(o => o.Code).Select(c => new BitDropdownItem<string>
+        {
+            Text = "فصل: " + c.Code.ToString(),
+            Value = c.Id.ToString()
+        }).ToList();
+
+        StateHasChanged();
+        // await base.OnAfterRenderAsync(firstRender);
+        await base.OnParametersSetAsync();
+    }
+    // ✅ تعریف درست dotNetRef
+    private DotNetObjectReference<VideoUsageComponent>? dotNetRef;
+
+    public partial class VideoUsageComponent : ComponentBase
+    {
+        // همین کدی که بالا نوشتم داخل این کلاس قرار می‌گیره
+    }
+    private readonly List<Person> fewPeople2 = Enumerable.Range(0, 10).Select(i => new Person
+    {
+        Id = i + 1,
+        FirstName = $"Person {i + 1}",
+        LastName = $"Person Family {i + 1}",
+        Job = $"Programmer {i + 1}"
+    }).ToList();
+
+    // private List<EpisodeModel> Episodes;
+    private readonly List<Person> fewPeople = Enumerable.Range(0, 100).Select(i => new Person
+    {
+        Id = i + 1,
+        FirstName = $"Person {i + 1}",
+        LastName = $"Person Family {i + 1}",
+        Job = $"Programmer {i + 1}"
+    }).ToList();
+
+    public class Person
+    {
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Job { get; set; }
+    }
+
+
+
+    IEnumerable<ModelChapterDetailsFull> getLocationFa;
+    private async Task OnChapterChanged(string newValue)
+    {
+        selectedChapter = newValue;
+        var getData = await MultiChapterDetail.GetByHeaderChapter(Guid.Parse(selectedChapter));
+
+        var getData2 = getData.Select(s => new ModelGuidFaEn { ChapterDetailId = s.Id, Type = $"Fa-{s.Code}" }).ToList();
+        var getCheckLocationFa = await MultiChapterDetail.GetByHeaderTranslate(getData2);
+        var getCheckAddress = getCheckLocationFa.Select(s =>
+        {
+            var strings = Directory.GetFiles(Path.GetDirectoryName(s.AddressFile));
+            var value = $"Fa-{s.ChapterCode}";
+            if (strings.Any(w2 => w2.Contains(value)))
+            {
+                var getCheck = strings.First(w2 => w2.Contains(value));
+                // return getCheck;
+                return new
+                {
+                    Id = s.ChapterDetailsId,
+                    FilePath = getCheck,
+                    ChapterCode = s.ChapterCode,
+                };
+            }
+
+            return null;
+        }).Where(w => w != null).ToList();
+
+
+
+        getDetailChapter = getCheckAddress.OrderByDescending(o => o.ChapterCode).Select(s => new ModelChapterDetailForVideo
+        {
+            Id = s.Id,
+            Code = s.ChapterCode,
+            Address = s.FilePath
+        }).ToList();
+        StateHasChanged();
+
+
+
+
+
+        // اینجا هر اکشنی خواستی انجام بده
+        await Task.CompletedTask;
+    }
+}
+
+
+
+
+
+
+
+<style>
+    .dialog-title {
+        display: flex;
+        font-size: 24px;
+        font-weight: 600;
+        align-items: center;
+        padding: 12px 12px 14px 24px;
+        border-top: 4px solid #0054C6;
+        width: 340px;
+        /* justify-content: ; */
+    }
+
+    .dialog-body {
+        max-width: 40rem;
+        overflow-y: hidden;
+        padding: 0px 5px 5px 5px;
+    }
+
+    .dialog-footer {
+        display: flex;
+        align-items: center;
+        padding: 0 14px 14px;
+        justify-content: flex-end;
+    }
+
+    .scrollable-episode-list {
+        max-height: 50vh;
+        overflow-y: auto;
+    }
+
+    /*     .dynamic-episode-list {
+                        height: auto;
+                        overflow-y: auto;
+                        padding: 8px;
+                        border: 1px solid #ccc;
+                        border-radius: 6px;
+                    } */
+
+    .dynamic-episode-list {
+        max-height: calc(6 * 70px); /* فرضاً هر آیتم 60px ارتفاع داره */
+        overflow-y: auto;
+    }
+
+
+    .episode-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px;
+        margin-bottom: 10px;
+        background-color: #f2f2f2;
+        border-radius: 8px;
+    }
+
+</style>

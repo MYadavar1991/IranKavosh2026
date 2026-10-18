@@ -1,0 +1,17 @@
+﻿@using BlazorApp1.Components.Layout
+@using Microsoft.AspNetCore.Components
+
+<Router AppAssembly="typeof(Program).Assembly">
+    <Found Context="routeData">
+        @* <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" /> *@
+        <RouteView RouteData="routeData" DefaultLayout="typeof(App)" />
+        <FocusOnNavigate RouteData="routeData" Selector="h1" />
+    </Found>
+</Router>
+
+
+
+
+
+
+

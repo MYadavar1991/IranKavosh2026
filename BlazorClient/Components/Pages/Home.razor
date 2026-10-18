@@ -1,0 +1,43 @@
+﻿@page "/"
+@using BlazorClient.Components.Site
+@using Microsoft.AspNetCore.Components
+
+
+ @* @rendermode InteractiveServer *@
+@* <div class="main-content"> *@
+       <Header1 />
+    <ViewHome />   
+
+    @{
+       // Func<MultimediaHeader, bool> filter = header => header.MultimediaGroupId == Guid.Parse("6509e3d3-ee0f-4dac-ad65-446be213d9ef");
+      
+        <ViewFilm Title="سریال های ایرانی"  />
+        <ViewFilm Title="سریال های خارجی"  />
+        <ViewFilm Title="فیلم خارجی"  />
+    }
+    @{
+      //  Func<MultimediaHeader, bool> filter1 = header => header.MultimediaGroupId == Guid.Parse("3e8ea833-5ca0-48d9-819e-c5049a46e3f5");
+       // <ViewFilm Title="سینمایی ایرانی"  />
+    }
+
+    @*     <ViewFilm Title="سینمایی ایرانی"/>
+        <ViewFilm Title="سریال های خارجی"/> *@
+
+@* 
+    <ViewFilmBetter /> @*برتر*@
+
+     <ViewFilmSuggestion /> 
+
+    <ViewFilmSingle />
+    <ViewFilmRecommended />  
+@* </div> *@
+ 
+@code
+{
+
+
+    public void Test()
+    {
+
+    }
+}

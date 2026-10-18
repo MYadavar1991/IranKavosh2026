@@ -1,0 +1,90 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net9.0-windows</TargetFramework>
+		<!--<CETCompat>false</CETCompat>  --><!-- این خط را اضافه کنید --><!--
+		<RollForward>LatestMinor</RollForward>-->
+		<UseWindowsForms>true</UseWindowsForms>
+
+
+		<!--<PlatformTarget>x64</PlatformTarget>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<SelfContained>true</SelfContained>-->
+
+
+		<Nullable>enable</Nullable>
+
+		<ImplicitUsings>enable</ImplicitUsings>
+		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+		<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
+		<ApplicationIcon>256 256 (PNG).ico</ApplicationIcon>
+
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Remove="ClsDeviceAndroid.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="256 256 (PNG).ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="DevExpress.Win.BonusSkins" Version="25.2.3" />
+		<PackageReference Include="DevExpress.Win.Design" Version="25.2.3" />
+		<PackageReference Include="EntityFramework" Version="6.5.1" />
+		<PackageReference Include="FluentFTP" Version="55.0.0" />
+		<PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.15.0" />
+		<PackageReference Include="MediaDevices" Version="1.10.0" />
+		<PackageReference Include="RestSharp" Version="112.1.0" />
+		<PackageReference Include="System.Management" Version="9.0.8" />
+		<PackageReference Include="System.ServiceProcess.ServiceController" Version="9.0.8" />
+		<!--<PackageReference Include="Vanara.PInvoke.PortableDeviceApi" Version="5.0.0" />-->
+		<PackageReference Include="WindowsAPICodePack" Version="8.0.9" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\EitaaIK\EitaaIK.csproj" />
+		<ProjectReference Include="..\IranKavosh.Layered.FileCopy\IranKavosh.Layered.FileCopy.csproj" />
+		<ProjectReference Include="..\IranKavosh.Layered.Service\IranKavosh.Layered.Service.csproj" />
+		<ProjectReference Include="..\MyCom\MyCom.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="EF_Model">
+			<HintPath>..\Db OLd\EF_Model.dll</HintPath>
+		</Reference>
+		<Reference Include="SQL_Network_V2">
+			<HintPath>..\SQL_Network_V2.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Properties\Settings.Designer.cs">
+			<DesignTimeSharedInput>True</DesignTimeSharedInput>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Settings.settings</DependentUpon>
+		</Compile>
+		<Compile Update="Report\Pos_Serial_Irani_Week.cs">
+			<SubType>XtraReport</SubType>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Properties\Settings.settings">
+			<Generator>PublicSettingsSingleFileGenerator</Generator>
+			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
+		</None>
+	</ItemGroup>
+
+</Project>
