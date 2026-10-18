@@ -20,7 +20,7 @@
 ### 📸 تصاویر برنامه
 
 
-| <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/Main1.png" width="250" /> | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/imdb.png" width="250" /> | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/fastfactor.png" width="250" /> |
+| <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/main.png" width="250" /> | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/imdb.png" width="250" /> | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/fastfactor.png" width="250" /> |
 | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/memory.png" width="250" /> | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/nerkah.png" width="250" /> | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/newvideo.png" width="250" /> |
 | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/selvideo.png" width="250" /> | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/serial.png" width="250" /> | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/video.png" width="250" /> | |
 
