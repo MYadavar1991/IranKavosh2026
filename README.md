@@ -21,7 +21,9 @@
 
 ### فرم اصلی
 
-![فرم اصلی](docs/screenshots/main.png)
+![فرم اصلی1](docs/screenshots/main1.png)
+
+![فرم اصلی1](docs/screenshots/main2.png)
 
 ### مدیریت فیلم‌ها
 
