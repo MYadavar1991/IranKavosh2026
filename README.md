@@ -16,33 +16,13 @@
 - **ربات تلگرام کانال**: اعضای کانال و فاکتورها
 
 ## تصاویر برنامه
+### گالری تصاویر برنامه
 
-> تصاویر را در پوشه‌ی `docs/screenshots` بگذارید و نام فایل‌ها را در صورت نیاز تغییر دهید.
-
-### فرم اصلی
-
-![فرم اصلی1](https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/main1.png)
-![فرم اصلی1](docs/screenshots/main2.png)
-
-### مدیریت فیلم‌ها
-
-![مدیریت فیلم‌ها](docs/screenshots/films.png)
-
-### فاکتور و فروش
-
-![فاکتور](docs/screenshots/billing.png)
-
-### انتقال فیلم به فلش
-
-![انتقال به فلش](docs/screenshots/flash-transfer.png)
-
-### انتشار فیلم‌های جدید
-
-![انتشار فیلم‌های جدید](docs/screenshots/publish.png)
-
-### صفحه‌ی وب فیلم‌های جدید
-
-![صفحه‌ی وب](docs/screenshots/web-page.png)
+| | | |
+|:---:|:---:|:---:|
+| ![فرم اصلی](https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/main1.png) | ![مدیریت فیلم‌ها](https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/films.png) | ![تصویر سوم](لینک_عکس_سوم) |
+| ![تصویر چهارم](لینک_عکس_چهارم) | ![تصویر پنجم](لینک_عکس_پنجم) | ![تصویر ششم](لینک_عکس_ششم) |
+| ![تصویر هفتم](لینک_عکس_هفتم) | ![تصویر هشتم](لینک_عکس_هشتم) | ![تصویر نهم](لینک_عکس_نهم) |
 
 ## تکنولوژی‌ها
 
