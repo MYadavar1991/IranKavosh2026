@@ -17,12 +17,12 @@
 
 ## تصاویر برنامه
 ### گالری تصاویر برنامه
+### 📸 تصاویر برنامه
 
-| | | |
-|:---:|:---:|:---:|
-| ![فرم اصلی](https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/main1.png) | ![مدیریت فیلم‌ها](https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/films.png) | ![تصویر سوم](لینک_عکس_سوم) |
-| ![تصویر چهارم](لینک_عکس_چهارم) | ![تصویر پنجم](لینک_عکس_پنجم) | ![تصویر ششم](لینک_عکس_ششم) |
-| ![تصویر هفتم](لینک_عکس_هفتم) | ![تصویر هشتم](لینک_عکس_هشتم) | ![تصویر نهم](لینک_عکس_نهم) |
+
+| <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/Main1.png" width="250" /> | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/imdb.png" width="250" /> | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/fastfactor.png" width="250" /> |
+| <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/memory.png" width="250" /> | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/nerkah.png" width="250" /> | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/newvideo.png" width="250" /> |
+| <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/selvideo.png" width="250" /> | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/serial.png" width="250" /> | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/video.png" width="250" /> | |
 
 ## تکنولوژی‌ها
 
