@@ -17,7 +17,6 @@
 
 ## تصاویر برنامه
 ### گالری تصاویر برنامه
-### 📸 تصاویر برنامه
 
 
 | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/main.png" width="250" /> | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/imdb.png" width="250" /> | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/fastfactor.png" width="250" /> |
