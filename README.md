@@ -1,10 +1,10 @@
-<div dir="rtl">
+[<div dir="rtl">
 
 # سیستم مدیریت فروشگاه کلوپ (Club Store Management System)
 
 برنامه‌ی دسکتاپ ویندوزی برای مدیریت کلوپ فیلم: موجودی فیلم‌ها، تشخیص فلش، انتقال فایل به فلش مشتری، صدور فاکتور و انتشار «فیلم‌های جدید» به‌صورت صفحه‌ی وب برای مشتری‌ها.
 
-پروژه‌ی تک‌نفره، ساخته‌شده با C#، Windows Forms، EF Core و SQL Server.
+پروژه‌ ساخته‌شده با C#، Windows Forms، EF Core و SQL Server.
 
 ## امکانات
 
@@ -16,34 +16,12 @@
 - **ربات تلگرام کانال**: اعضای کانال و فاکتورها
 
 ## تصاویر برنامه
+### گالری تصاویر برنامه
 
-> تصاویر را در پوشه‌ی `docs/screenshots` بگذارید و نام فایل‌ها را در صورت نیاز تغییر دهید.
 
-### فرم اصلی
-
-![فرم اصلی1](docs/screenshots/main1.png)
-
-![فرم اصلی1](docs/screenshots/main2.png)
-
-### مدیریت فیلم‌ها
-
-![مدیریت فیلم‌ها](docs/screenshots/films.png)
-
-### فاکتور و فروش
-
-![فاکتور](docs/screenshots/billing.png)
-
-### انتقال فیلم به فلش
-
-![انتقال به فلش](docs/screenshots/flash-transfer.png)
-
-### انتشار فیلم‌های جدید
-
-![انتشار فیلم‌های جدید](docs/screenshots/publish.png)
-
-### صفحه‌ی وب فیلم‌های جدید
-
-![صفحه‌ی وب](docs/screenshots/web-page.png)
+| <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/main.png" width="250" /> | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/imdb.png" width="250" /> | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/fastfactor.png" width="250" /> |
+| <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/memory.png" width="250" /> | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/nerkah.png" width="250" /> | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/newvideo.png" width="250" /> |
+| <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/selvideo.png" width="250" /> | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/serial.png" width="250" /> | <img src="https://raw.githubusercontent.com/MYadavar1991/IranKavosh2026/master/docs/screenshots/video.png" width="250" /> | |
 
 ## تکنولوژی‌ها
 
@@ -123,19 +101,11 @@ erDiagram
 
 هر فیلم یک `MultimediaHeader` است. فیلم فصل‌ها (`MultimediaHeaderChapter`) دارد و هر فصل یک یا چند فایل (`MultimediaChapterDetail`، با پرچم‌هایی مثل WEB-DL یا HDTS). مشتری فایل‌ها را از طریق `MultiListPersonal` می‌خرد و کپی روی فلش در `CopiedFilmToMemory` ثبت می‌شود.
 
-## راه‌اندازی
 
-1. ریپو را clone کنید و فایل `.sln` را در Visual Studio باز کنید.
-2. رشته‌ی اتصال SQL Server را در تنظیمات برنامه وارد کنید (هرگز آن را commit نکنید).
-3. Migrationها را اجرا کنید یا دیتابیس را بسازید.
-4. کلید `F5` را بزنید.
-
-## مجوز
-
-_مجوز پروژه را اینجا اضافه کنید._
 
 ## سازنده
 
 مجتبی یادآور (Mojtaba Yadavar)
 
 </div>
+]
