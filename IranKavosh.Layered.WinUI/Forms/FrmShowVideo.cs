@@ -201,28 +201,37 @@ namespace IranKavosh.Layered.WinUI.Forms
                     };
                 }
 
-                new Task(() =>
+                //new Task(() =>
+                //{
+                if (rowData.Num == 5316)
                 {
-                    var getCount = Directory
-                        .GetFiles(rowData.LocationFull, "*.*", SearchOption.AllDirectories)
-                        .Any(f => f.EndsWith(".mp4", StringComparison.OrdinalIgnoreCase)
-                                  || f.EndsWith(".mkv", StringComparison.OrdinalIgnoreCase));
 
-                    if (!getCount)
+                }
+                if (!string.IsNullOrEmpty(rowData.LocationFull))
                     {
-                        if (!rowData.NamePersian.Contains("فعلا موجود نیست"))
-                        {
-                            rowData.NamePersian += " (فعلا موجود نیست)";
-                        }
                         
-                        var bottomText = e1.HtmlElement?
-                            .FindElementsByClass("bottom-text")
-                            .FirstOrDefault();
+                        var getCount = Directory
+                            .GetFiles(rowData.LocationFull, "*.*", SearchOption.AllDirectories)
+                            .Any(f => f.EndsWith(".mp4", StringComparison.OrdinalIgnoreCase)
+                                      || f.EndsWith(".mkv", StringComparison.OrdinalIgnoreCase));
+                       
+                        if (!getCount)
+                        {
+                            if (!rowData.NamePersian.Contains("فعلا موجود نیست"))
+                            {
+                                rowData.NamePersian += " (فعلا موجود نیست)";
+                            }
 
-                        if (bottomText != null)
-                            bottomText.ClassName = "bottom-text-no-video";
+                            var bottomText = e1.HtmlElement?
+                                .FindElementsByClass("bottom-text")
+                                .FirstOrDefault();
+
+                            if (bottomText != null)
+                                bottomText.ClassName = "bottom-text-no-video";
+                        }
                     }
-                }).Start();
+                //}).Start();
+            
 
             };
 
@@ -1339,9 +1348,10 @@ namespace IranKavosh.Layered.WinUI.Forms
             this.WindowState = FormWindowState.Normal;
             rdoFiltering.Enabled = false;
             rdoReport.Enabled = false;
-
+            var getlocation = await _multiLocation.GetAsync();
             loadAllVideo = getHeader.Where(where).Select(s =>
             {
+                var location = Path.Combine(getlocation.First(f => f.Id == s.LocationId).DirShare_PCIP, s.Num.ToString());
                 var getgenerList = s.MultiGenreLists.Split(',');
                 var genreTitles = getGenre
                     .Where(g => getgenerList.Contains(g.Id.ToString()))
@@ -1353,7 +1363,7 @@ namespace IranKavosh.Layered.WinUI.Forms
                     Id = s.Id,
                     NamePersian = s.NamePersian,
                     LocationId = s.LocationId,
-
+                    LocationFull = location,
                     Country = getCountry.First(f => f.Id == s.CountryId).Title,
                     Num = s.Num,
                     MultimediaGroup = s.MultimediaGroupId == Guid.Parse("6509e3d3-ee0f-4dac-ad65-446be213d9ef")

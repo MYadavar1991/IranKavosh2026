@@ -2317,8 +2317,6 @@ namespace IranKavosh.Layered.WinUI.Forms
                     if (getSel.Actors != null)
                     {
 
-                     
-
                         var getActs = getSel.Actors.Split(", ");
 
                         #region CheckBeforeAdd
@@ -2335,20 +2333,24 @@ namespace IranKavosh.Layered.WinUI.Forms
                         var acts = new List<ModelActor>();
                         foreach (var act in getActs)
                         {
-                            string fa;
-                            try
+                            if (!string.IsNullOrEmpty(act))
                             {
-                                fa = await imdbService.GoogleTranslate(act);
+                                string fa;
+                                try
+                                {
+                                    fa = await imdbService.GoogleTranslate(act);
+                                }
+                                catch (Exception e)
+                                {
+                                    fa = getActors.FirstOrDefault(f => f.ActorNameEn == act)?.ActorName;
+                                }
+
+                                acts.Add(new ModelActor
+                                {
+                                    En = act,
+                                    Fa = fa ?? ""
+                                });
                             }
-                            catch (Exception e)
-                            {
-                                fa = getActors.FirstOrDefault(f => f.ActorNameEn == act).ActorName;
-                            }
-                            acts.Add(new ModelActor
-                            {
-                                En = act,
-                                Fa = fa
-                            });
                         }
 
 
@@ -2359,12 +2361,19 @@ namespace IranKavosh.Layered.WinUI.Forms
                         await Task.Delay(150);
                         getActors = await _multiActor.GetAsync();
                         await Task.Delay(150);
+                        //var matchedIds = getActors
+                        //    .Where(actor => acts.Any(c =>
+                        //        string.Equals(c.Fa.Trim(), actor.ActorName.Trim(), StringComparison.OrdinalIgnoreCase)))
+                        //    .Select(actor => actor.Id).Take(7)
+                        //    .ToList();
+
                         var matchedIds = getActors
                             .Where(actor => acts.Any(c =>
+                                c.Fa != null && actor.ActorName != null &&
                                 string.Equals(c.Fa.Trim(), actor.ActorName.Trim(), StringComparison.OrdinalIgnoreCase)))
-                            .Select(actor => actor.Id).Take(7)
+                            .Select(actor => actor.Id)
+                            .Take(7)
                             .ToList();
-
 
                         await Task.Delay(120);
                         tknActor.Properties.BeginUpdate();
@@ -2522,6 +2531,12 @@ namespace IranKavosh.Layered.WinUI.Forms
             txtEnglishName.SuperTip = superToolTip;
             txtPersianName.Tag = text;
         }
+        bool IsEnglish(string? text)
+        {
+            if (string.IsNullOrWhiteSpace(text)) return false;
+            return text.All(c => c <= 127);  // همه کاراکترها ASCII هستند
+        }
+
 
         private async void tknActor_MouseUp(object sender, MouseEventArgs e)
         {
@@ -2531,8 +2546,29 @@ namespace IranKavosh.Layered.WinUI.Forms
                 //var getActors = getHeaders.ActorsId.Split(',');
                 var modelActorsList = new List<FrmActorss.ModelActors>();
                 //var getActors = string.Join(',', tknActor.SelectedItems.Select(s => new FrmActorss.ModelActors { Id = s.Value.ToGuid(),En= s.Description})).ToList();
-                var getActors = tknActor.SelectedItems.Select(s => new FrmActorss.ModelActors { Id = s.Value.ToGuid(), En = s.Description }).ToList();
+                //   var getActors = tknActor.SelectedItems.Select(s => new FrmActorss.ModelActors { Id = s.Value.ToGuid(), En = s.Description }).ToList();
+                //var getActors = tknActor.SelectedItems
+                //    .Select(s =>
+                //    {
+                //        bool isEnglish = IsEnglish(s.Description);
 
+                //        return new FrmActorss.ModelActors
+                //        {
+                //            Id = s.Value.ToGuid(),
+                //            En = isEnglish ? s.Description : "",
+                //            Fa = isEnglish ? "" : s.Description
+                //        };
+                //    })
+                //    .ToList();
+                var getActors = tknActor.SelectedItems
+                    .Where(s => IsEnglish(s.Description))
+                    .Select(s => new FrmActorss.ModelActors
+                    {
+                        Id = s.Value.ToGuid(),
+                        En = s.Description,
+                        Fa = ""
+                    })
+                    .ToList();
                 foreach (var a in getActors)
                 {
                     modelActorsList.Add(new FrmActorss.ModelActors
@@ -2546,12 +2582,16 @@ namespace IranKavosh.Layered.WinUI.Forms
                 var frmAct = new FrmActorss(modelActorsList, _decAboutFilm);
                 frmAct.ShowDialog();
                 var getTran = frmAct._actorsList;
-                
+
                 if (getTran != null)
                 {
 
                     List<MultiActor> getData1 = getTran.Select(s => new MultiActor
-                        { Id = s.Id, ActorNameEn = s.En, ActorName = s.Fa }).ToList();
+                    {
+                        Id = s.Id,
+                        ActorNameEn = s.En,
+                        ActorName = s.Fa
+                    }).ToList();
 
                     foreach (var m in getData1)
                     {

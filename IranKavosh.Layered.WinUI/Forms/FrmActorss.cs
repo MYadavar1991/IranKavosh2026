@@ -53,8 +53,8 @@ namespace IranKavosh.Layered.WinUI.Forms
             {
                 if (!string.IsNullOrEmpty(memoFa.Lines[i]))
                 {
-                    _actorsList[i].Fa = memoFa.Lines[i];
                     _actorsList[i].En = memoEn.Lines[i];
+                    _actorsList[i].Fa = memoFa.Lines[i];
                 }
             }
             _description = memoDes.Text;
